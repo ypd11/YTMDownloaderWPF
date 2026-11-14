@@ -341,7 +341,9 @@
                                     Background="#252A31"
                                     Margin="0,0,0,14"/>
 
-                            <Button Style="{StaticResource NavButton}">
+                            <Button x:Name="SettingsNavButton"
+                                    Style="{StaticResource NavButton}"
+                                    Click="SettingsNavButton_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="&#xE713;"
                                                FontFamily="Segoe MDL2 Assets"
@@ -526,17 +528,47 @@
            Margin="0,5,0,0"/>
                                 </StackPanel>
 
-                                <TextBlock x:Name="TrackCountText"
-                                    Grid.Column="1"
-                                           Text="0 TRACKS"
-                                           FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#6B7280"
-                                           VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1"
+            Orientation="Horizontal"
+            VerticalAlignment="Center">
+
+                                    <TextBlock x:Name="TrackCountText"
+               Text="0 TRACKS"
+               FontSize="11"
+               FontWeight="SemiBold"
+               Foreground="#6B7280"
+               VerticalAlignment="Center"
+               Margin="0,0,16,0"/>
+
+                                    <Button x:Name="DownloadButton"
+            Style="{StaticResource ActionButton}"
+            Content="Download Playlist"
+            IsEnabled="False"
+            Click="DownloadButton_Click"/>
+
+                                    <Button x:Name="PauseDownloadButton"
+        Style="{StaticResource ActionButton}"
+        Content="Pause"
+        Background="#29313A"
+        Foreground="#F1F3F5"
+        Margin="10,0,0,0"
+        IsEnabled="False"
+        Visibility="Collapsed"
+        Click="PauseDownloadButton_Click"/>
+
+                                    <Button x:Name="CancelDownloadButton"
+        Style="{StaticResource ActionButton}"
+        Content="Cancel"
+        Background="#3A2024"
+        Foreground="#FCA5A5"
+        Margin="10,0,0,0"
+        IsEnabled="False"
+        Visibility="Collapsed"
+        Click="CancelDownloadButton_Click"/>
+
+                                </StackPanel>
 
                             </Grid>
-
-                            <!-- Empty State -->
 
                             <!-- Playlist Content -->
                             <Grid Grid.Row="1">
@@ -690,39 +722,59 @@
 
                     </Border>
 
-                    <!-- Bottom Status -->
+                    <!-- Bottom Status and Download Progress -->
                     <Grid Grid.Row="3"
-                          Margin="0,18,0,0">
+      Margin="0,18,0,0">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                        <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center">
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="&#xE895;"
-                                       FontFamily="Segoe MDL2 Assets"
-                                       FontSize="13"
-                                       Foreground="#10B981"
-                                       Margin="0,0,8,0"/>
+                            <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center">
 
-                            <TextBlock Text="MP3"
-                                       FontSize="12"
-                                       FontWeight="SemiBold"/>
+                                <TextBlock Text="&#xE895;"
+                       FontFamily="Segoe MDL2 Assets"
+                       FontSize="13"
+                       Foreground="#10B981"
+                       Margin="0,0,8,0"/>
 
-                            <TextBlock Text="  ·  320 kbps  ·  Embedded artwork"
-                                       FontSize="12"
-                                       Foreground="#8B949E"/>
+                                <TextBlock Text="MP3"
+                       FontSize="12"
+                       FontWeight="SemiBold"/>
 
-                        </StackPanel>
+                                <TextBlock Text="  ·  320 kbps  ·  Embedded artwork"
+                       FontSize="12"
+                       Foreground="#8B949E"/>
 
-                        <TextBlock Grid.Column="1"
-                                   Text="Ready to download"
-                                   FontSize="12"
-                                   Foreground="#6B7280"
-                                   VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <TextBlock x:Name="DownloadStatusText"
+                   Grid.Column="1"
+                   Text="Ready to download"
+                   FontSize="12"
+                   Foreground="#6B7280"
+                   VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <ProgressBar x:Name="DownloadProgressBar"
+                 Grid.Row="1"
+                 Height="5"
+                 Margin="0,12,0,0"
+                 Minimum="0"
+                 Maximum="100"
+                 Value="0"
+                 Visibility="Collapsed"
+                 Background="#292F37"
+                 Foreground="#10B981"
+                 BorderThickness="0"/>
 
                     </Grid>
 
