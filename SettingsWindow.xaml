@@ -72,6 +72,64 @@
             </Setter>
         </Style>
 
+        <!-- Window Controls -->
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#A1A1AA"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="WindowButtonBorder"
+                        Background="{TemplateBinding Background}">
+                            <ContentPresenter
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="WindowButtonBorder"
+                                Property="Background"
+                                Value="#292F37"/>
+                                <Setter Property="Foreground"
+                                Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CloseButton"
+       TargetType="Button"
+       BasedOn="{StaticResource WindowButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="CloseBorder"
+                        Background="Transparent">
+                            <ContentPresenter
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CloseBorder"
+                                Property="Background"
+                                Value="#E81123"/>
+                                <Setter Property="Foreground"
+                                Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- Primary button -->
         <Style x:Key="PrimaryButton"
                TargetType="Button"
@@ -104,37 +162,6 @@
                                 <Setter TargetName="ButtonBorder"
                                         Property="Opacity"
                                         Value="0.45"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- Close button -->
-        <Style x:Key="CloseButton" TargetType="Button">
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#8B949E"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="17"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="CloseBorder"
-                                Background="{TemplateBinding Background}"
-                                CornerRadius="6">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="CloseBorder"
-                                        Property="Background"
-                                        Value="#342126"/>
-                                <Setter Property="Foreground" Value="#F87171"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -249,52 +276,36 @@
                                     <ColumnDefinition Width="34"/>
                                 </Grid.ColumnDefinitions>
 
-                                <ContentPresenter Grid.Column="0"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Left"
-                                                  Content="{TemplateBinding SelectionBoxItem}"
-                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                                  ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
-                                                  IsHitTestVisible="False"/>
-
-                                <ToggleButton Grid.Column="1"
-                                              Focusable="False"
-                                              FocusVisualStyle="{x:Null}"
-                                              Background="Transparent"
-                                              BorderThickness="0"
-                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <!-- Covers the entire ComboBox and handles clicks -->
+                                <ToggleButton Grid.ColumnSpan="2"
+                  Focusable="False"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ToggleButton.Template>
                                         <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                            <Border x:Name="ArrowBorder"
-                                                    Background="Transparent"
-                                                    CornerRadius="0,7,7,0">
+                                            <Border Background="Transparent">
                                                 <Path Data="M 0 0 L 4 4 L 8 0"
-                                                      Stroke="#8B949E"
-                                                      StrokeThickness="1.5"
-                                                      HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"/>
+                          Stroke="#8B949E"
+                          StrokeThickness="1.5"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center"
+                          Margin="0,0,13,0"/>
                                             </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="ArrowBorder"
-                                                            Property="Background"
-                                                            Value="#29332F"/>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter TargetName="ArrowBorder"
-                                                            Property="Background"
-                                                            Value="#203C32"/>
-                                                </Trigger>
-                                                <Trigger Property="IsChecked" Value="True">
-                                                    <Setter TargetName="ArrowBorder"
-                                                            Property="Background"
-                                                            Value="#203C32"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </ToggleButton.Template>
                                 </ToggleButton>
+
+                                <!-- Displayed selection -->
+                                <ContentPresenter Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      Margin="{TemplateBinding Padding}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left"
+                      Content="{TemplateBinding SelectionBoxItem}"
+                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                      ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                      IsHitTestVisible="False"/>
                             </Grid>
 
                             <Popup x:Name="PART_Popup"
@@ -318,11 +329,6 @@
                         </Grid>
 
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="ComboBorder"
-                                        Property="BorderBrush"
-                                        Value="#46515D"/>
-                            </Trigger>
                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                                 <Setter TargetName="ComboBorder"
                                         Property="BorderBrush"
@@ -494,10 +500,10 @@
                 </StackPanel>
 
                 <Button Grid.Column="1"
-                        Content="×"
-                        Style="{StaticResource CloseButton}"
-                        Click="CloseButton_Click"
-                        Margin="0,0,10,0"/>
+        Style="{StaticResource CloseButton}"
+        Content="&#xE8BB;"
+        FontFamily="Segoe MDL2 Assets"
+        Click="CloseButton_Click"/>
             </Grid>
 
             <!-- Content -->
